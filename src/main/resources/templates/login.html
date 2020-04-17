@@ -1,12 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
     <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            background-image: url(img/bg.jpeg);
+            background-size: auto;
+            background-position: center;
+        }
+        @font-face {
+            font-family: workSans;
+        }
+        ul li a {
+            font-size: 17px;
+            font-family: "workSans";
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+        }
+
+        ul li a:hover {
+            color: #443020;
+        }
+
+        .form-row button {
+            font-size: 17px;
+            font-family: "workSans";
+            font-weight: bold;
+        }
+
+        h1, p, input {
+            font-family: 'workSans';
+        }
+        input {
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
-
-
-
+<div class="container-fluid" style="width:100%;">
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">회원가입</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">빈값</a>
+        </li>
+    </ul>
+</div>
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <form action="/loginData" method="post">
+            <div class="text-center" style="color: #fff;">
+                <h1>WebSocket Login</h1>
+            </div>
+            <div class="text-center" style="margin-bottom: 5em; color: #fff;">
+                <p>WelCome to WebSocket </p>
+            </div>
+            <div class="form-row justify-content-center">
+                <div class="col-7">
+                    <input type="email" name="email" class="form-control" placeholder="아이디 입력">
+                </div>
+                <div class="col-7 my-1">
+                    <input type="password" name="pwd" class="form-control" placeholder="비밀번호 입력">
+                </div>
+            </div>
+            <div class="form-row justify-content-center">
+                <div class="col-7  my-1">
+                    <button type="submit" class="btn btn-info btn-block" style="background-color: #36281d; color: #fff;">로그인</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

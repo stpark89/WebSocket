@@ -9,6 +9,7 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -24,11 +25,19 @@ public class Socket {
 
     // 연결될때
     @OnOpen
-    public void onOpen(Session session){
+    public void onOpen(Session session) throws IOException {
         log.info("onOpen 호출");
         // 접속자 증가
         addOnlineCount();
         this.session = session;
+
+        System.out.println("접속정보 ?? --------------------------");
+        System.out.println(session.getId());
+        System.out.println("접속정보 ?? --------------------------");
+
+        session.getBasicRemote().sendText("접속하셨습니다. >> ");
+
+
         listeners.add(this);
     }
 

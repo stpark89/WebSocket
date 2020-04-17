@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+    var wsUri = "ws://localhost:8080/websocket";
+    var websocket;
+    var output;
+</script>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <h1 class="text-center">Welcome ! This is Main </h1>
+                <hr/>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>방아이디</th>
+                        <th>방이름</th>
+                    </tr>
+                    </thead>
+                    <tbody id="roomTbody">
+
+                    </tbody>
+                </table>
+                <hr/>
+                <button id="btnMakeRoomPop">방만들기</button>
+            </div>
+        </div>
+    </div>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">방만들기</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <label>방 이름 </label><input type="text" id="name" class="form-control"/>
+                <br/>
+                <button class="btn btn-info" id="resultMakeBtn">방생성</button>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <script>
+
+            window.onload = () => {
+
+                console.log("접속 url - " +wsUri);
+
+                websocket = new WebSocket(wsUri);
+                websocket.onopen = (evt) => {
+                    onOpen(evt);
+                };
+
+                /// WebSocket 서버로 부터 메시지가 오면 호출되는 함수
+                websocket.onmessage = function(message) {
+                    console.log(message.data);
+                    alert('메세지 왔다.'+message.data);
+                };
+
+                $.ajax({
+                    url : '/getBoardList',
+                    success : function(data){
+                        console.log("룸 조회 합니다 ----");
+                        console.log(data);
+                        console.log("룸 조회 합니다 ----");
+
+                        let tbody = '';
+                        if(data.length > 0){
+                            data.map((v, i) => {
+                               tbody += `<tr><td>${i}</td><td>${v.roomId}</td><td>${v.name}</td>`;
+                            });
+                        }else{
+                            tbody = '<tr><td colspan="3">방이없습니다.</td>';
+                        }
+                        $('#roomTbody').html(tbody);
+                    }
+                });
+
+                //팝업
+                $('#btnMakeRoomPop').on("click", () => {
+
+                    $('#myModal').modal();
+
+                });
+
+                // 방만들기
+                $('#resultMakeBtn').on('click', () => {
+                    $.ajax({
+                        url: '/makeRoom',
+                        data : {
+                            roomId : '',
+                            name : $('#name').val()
+                        },
+                        success: function (data) {
+
+                            if(data.roomId != ''){
+                                location.href=`/detailRoom/${data.roomId}`;
+                            }
+                        }
+                    });
+                });
+
+            }
+
+            function onOpen(evt) {
+                console.log(websocket);
+                console.log(evt);
+            }
+
+
+    </script>
+
+</body>
+</html>
